@@ -6,8 +6,9 @@ This is a web application for managing student records. The frontend of the appl
 2. Navigate to the root folder of the project.
 3. Open the solution file (StudentManagement.sln) in Visual Studio.
 4. Build the solution.
-5. Start both the frontend and backend projects in Visual Studio.
-6. Access the application at https://localhost:7139/
+5. Create the database by running the following commands in the Package Manager Console: Update-Database
+6. Start both the frontend and backend projects in Visual Studio.
+7. Access the application at https://localhost:7139/
 
 ## Features
 ### Frontend
