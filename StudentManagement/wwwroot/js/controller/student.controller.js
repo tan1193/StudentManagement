@@ -34,6 +34,12 @@
             StudentService.GetStudentById(id, function (result) {
                 if (result.data) {
                     $scope.Student = result.data;
+                } else {
+                    alert('User not found');
+
+                    setTimeout(function () {
+                        $window.location.href = '/Student'
+                    }, 300);
                 }
             });
         }
