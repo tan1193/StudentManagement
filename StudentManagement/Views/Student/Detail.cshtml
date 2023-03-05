@@ -1,0 +1,35 @@
+﻿@{
+    int id = ViewBag.Id;
+    ViewData["Title"] = "Details";
+}
+
+
+
+<div ng-init="GetStudentById(@id)" ng-controller="Student.IndexController">
+    <h4>Student - ID: {{Student.id}}</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            Full Name
+        </dt>
+        <dd class="col-sm-10">
+            {{Student.fullName}}
+        </dd>
+        <dt class="col-sm-2">
+            Phone Number
+        </dt>
+        <dd class="col-sm-10">
+            {{Student.phone}}
+        </dd>
+        <dt class="col-sm-2">
+            Enrollment Date
+        </dt>
+        <dd class="col-sm-10">
+            {{Student.enrollmentDate | date:'dd-MM-yyyy' }}
+        </dd>
+
+    </dl>
+</div>
+<div>
+    <a href="./Student">Back to List</a>
+</div>
