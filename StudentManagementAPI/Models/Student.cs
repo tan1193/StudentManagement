@@ -27,7 +27,7 @@ namespace StudentManagementAPI.Models
 
     public class StudentPaging
     {
-        public List<Student> Students { get; set; }
+        public IEnumerable<Student> Students { get; set; }
         public int TotalRow { get; set; }
 
     } 

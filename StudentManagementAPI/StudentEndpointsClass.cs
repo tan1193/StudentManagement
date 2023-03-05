@@ -60,6 +60,7 @@ public static class StudentEndpointsClass
 
         routes.MapPost("/api/Student/", async (Student student, StudentManagementAPIContext db) =>
         {
+            student.EnrollmentDate = DateTime.Now;
             db.Student.Add(student);
             await db.SaveChangesAsync();
             return Results.Created($"/Students/{student.ID}", student);

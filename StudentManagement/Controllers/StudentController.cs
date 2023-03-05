@@ -23,5 +23,10 @@ namespace StudentManagement.Controllers
             ViewBag.Id = id;
             return View();
         }
+
+        public IActionResult Create()
+        {
+            return View();
+        }
     }
 }

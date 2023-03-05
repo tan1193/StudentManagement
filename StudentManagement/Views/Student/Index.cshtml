@@ -3,12 +3,13 @@
 }
 
 <div class="text-center" ng-controller="Student.IndexController">
-    <h1 class="display-4">Students </h1>
+    <h1 class="display-4">Students</h1>
     <div class="form-actions no-color">
         <p>
             Find by name, phone:
             <input type="text" ng-model="searchString" />
             <input type="submit" ng-click="btnSearchClick()" class="btn btn-primary" /> 
+            <a  href="/student/create">Create Student</a>
         </p>
     </div>
 
@@ -19,6 +20,7 @@
                 <th>Full Name</th>
                 <th>Phone Number</th>
                 <th>Enrollment Date</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -27,9 +29,12 @@
                 <td>{{student.fullName}}</td>
                 <td>{{student.phone}}</td>
                 <td>{{student.enrollmentDate | date:'dd-MM-yyyy' }}</td>
+                <td>
+                    <button class="btn-warning" ng-click="DeleteStudent(student.id)"> Delete</button>
+                </td>
             </tr>
         </tbody>
     </table>
-    <ul uib-pagination total-items="totalRow" ng-model="currentPage" ng-change="pageChanged()"></ul>
+        <ul uib-pagination total-items="totalRow" ng-model="currentPage" ng-change="pageChanged()"></ul>
 
 </div>
