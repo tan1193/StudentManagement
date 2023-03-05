@@ -10,14 +10,20 @@ This is a web application for managing student records. The frontend of the appl
 6. Access the application at https://localhost:7139/
 
 ## Features
-The Student Management application allows users to perform the following tasks:
+### Frontend
 
-- View a list of all students
-- Add a new student
-- Edit an existing student
-- Delete a student
-- Search for students by name or ID
+The frontend of the application can be accessed at https://localhost:7139/. Users can perform the following actions:
 
+- Login page
+- Student listing page
+- Student detail Page
+- Filter, Paging
+
+### Backend
+- Login API
+- Get All students API
+- Filter student by name, phone number, ID number API
+- Get student detail by ID API
 ## Swagger
 
 The API documentation for the backend can be accessed at https://localhost:7034/swagger/index.html. This page provides detailed information about the available endpoints, parameters, and responses.
