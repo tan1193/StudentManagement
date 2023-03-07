@@ -11,6 +11,8 @@ using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Cors;
+using StudentManagementAPI.Interfaces;
+using StudentManagementAPI.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<StudentManagementAPIContext>(options =>
@@ -71,7 +73,7 @@ builder.Services.AddCors(options =>
                .AllowAnyHeader()));
 
 builder.Services.AddAuthorization();
-
+builder.Services.AddScoped<IStudentService, StudentService>();
 
 var app = builder.Build();
 

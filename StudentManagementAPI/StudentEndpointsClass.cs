@@ -1,24 +1,21 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using StudentManagementAPI.Data;
+using StudentManagementAPI.Interfaces;
 using StudentManagementAPI.Models;
 namespace StudentManagementAPI;
 
 public static class StudentEndpointsClass
 {
-    public static void MapStudentEndpoints (this IEndpointRouteBuilder routes)
+    public static void MapStudentEndpoints(this IEndpointRouteBuilder routes)
     {
-        routes.MapGet("/api/Student", (int page, int pageSize,string searchString, StudentManagementAPIContext db) =>
+        routes.MapGet("/api/Student", (int page, int pageSize, string searchString,IStudentService studentService) =>
         {
-            var students = db.Student.ToList();
-            var totalRow = students.Count;
-            students = students.Skip((page - 1) * pageSize).Take(pageSize).ToList();
-            if (!string.IsNullOrEmpty(searchString))
-            {
-                students = students.Where(s => s.FirstMidName.Contains(searchString) || s.LastName.Contains(searchString) || (s.Phone ?? "").Contains(searchString)).ToList();
-            }
+            var students = studentService.GetStudents(page, pageSize, searchString);
+            
+
             var StudentPaging = new StudentPaging();
-            StudentPaging.Students = students;
-            StudentPaging.TotalRow = totalRow;
+            StudentPaging.Students = students.Item1;
+            StudentPaging.TotalRow = students.Item2;
 
             return StudentPaging;
         })
@@ -26,9 +23,9 @@ public static class StudentEndpointsClass
         .WithName("GetAllStudents")
         .Produces<List<Student>>(StatusCodes.Status200OK);
 
-        routes.MapGet("/api/Student/{id:int}", async (int ID, StudentManagementAPIContext db) =>
+        routes.MapGet("/api/Student/{id:int}", async (int ID, IStudentService studentRepository) =>
         {
-            return await db.Student.FindAsync(ID)
+            return await studentRepository.GetStudentByIdAsync(ID)
                 is Student model
                     ? Results.Ok(model)
                     : Results.NotFound();
@@ -38,47 +35,36 @@ public static class StudentEndpointsClass
         .Produces<Student>(StatusCodes.Status200OK)
         .Produces(StatusCodes.Status404NotFound);
 
-        routes.MapPut("/api/Student/{id}", async (int ID, Student student, StudentManagementAPIContext db) =>
+        routes.MapPut("/api/Student/{id}", async (int ID, Student student, IStudentService studentService) =>
         {
-            var foundModel = await db.Student.FindAsync(ID);
-
-            if (foundModel is null)
+            try
+            {
+                await studentService.UpdateStudentAsync(ID, student);
+                return Results.NoContent();
+            }
+            catch 
             {
                 return Results.NotFound();
             }
-            
-            db.Update(student);
-
-            await db.SaveChangesAsync();
-
-            return Results.NoContent();
         })
         .RequireAuthorization()
         .WithName("UpdateStudent")
         .Produces(StatusCodes.Status404NotFound)
         .Produces(StatusCodes.Status204NoContent);
 
-        routes.MapPost("/api/Student/", async (Student student, StudentManagementAPIContext db) =>
+        routes.MapPost("/api/Student/", async (Student student, IStudentService studentRepository) =>
         {
             student.EnrollmentDate = DateTime.Now;
-            db.Student.Add(student);
-            await db.SaveChangesAsync();
+            await studentRepository.CreateStudentAsync(student);
             return Results.Created($"/Students/{student.ID}", student);
         })
         .RequireAuthorization()
         .WithName("CreateStudent")
         .Produces<Student>(StatusCodes.Status201Created);
 
-        routes.MapDelete("/api/Student/{id}", async (int ID, StudentManagementAPIContext db) =>
+        routes.MapDelete("/api/Student/{id}", async (int ID, IStudentService studentRepository) =>
         {
-            if (await db.Student.FindAsync(ID) is Student student)
-            {
-                db.Student.Remove(student);
-                await db.SaveChangesAsync();
-                return Results.Ok(student);
-            }
-
-            return Results.NotFound();
+            return studentRepository.DeleteStudentAsync(ID);
         })
         .RequireAuthorization()
         .WithName("DeleteStudent")
