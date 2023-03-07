@@ -17,6 +17,7 @@ The frontend of the application can be accessed at https://localhost:7139/. User
 
 - Login page
 - Student listing page
+- Create a new student
 - Student detail Page
 - Filter, Paging
 
@@ -24,6 +25,7 @@ The frontend of the application can be accessed at https://localhost:7139/. User
 - Login API
 - Get All students API
 - Filter student by name, phone number, ID number API
+- Create a new student
 - Get student detail by ID API
 ## Swagger
 
@@ -33,6 +35,7 @@ The API documentation for the backend can be accessed at https://localhost:7034/
 
 - ASP.NET MVC
 - AngularJS
-- ASP.NET Core minimal API
+- ASP.NET Core minimal API 
+- Dependency Injection
 - Entity Framework Core
 - SQL
